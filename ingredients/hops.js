@@ -1,6 +1,6 @@
 // Хмель
 
-const hops = [
+export const hops = [
     {
         id: "fuggwell",
         name: "Fuggwell",

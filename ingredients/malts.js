@@ -1,6 +1,6 @@
 // Солод
 
-const malts = [
+export const malts = [
     {
         id: "bristford-brown",
         name: "Bristford Brown",

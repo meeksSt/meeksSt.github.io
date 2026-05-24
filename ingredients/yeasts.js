@@ -1,6 +1,6 @@
 // Дрожжи
 
-const yeasts = [
+export const yeasts = [
     {
         id: "yeastwell",
         name: "Yeastwell",
