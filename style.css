@@ -1,3 +1,21 @@
 body {
     background-color: rgb(196, 167, 117);
 }
+
+.receipt, .receipt > * {
+    display: flex;
+    flex-direction: column;
+
+    width: fit-content;
+}
+
+#receipts {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 8px;
+}
+
+.receipt {
+    padding: 12px;
+    border: 2px solid black;
+}
