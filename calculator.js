@@ -2,12 +2,8 @@ import { malts } from './ingredients/malts.js';
 import { hops } from './ingredients/hops.js';
 import { yeasts } from './ingredients/yeasts.js';
 
-
-const beerSort = 'gravenford';
-const beerProperties = ['refreshment', 'lightness', 'sweetness'];
-
-const findCorrectBeer = () => {
-    const beerFits = [];
+export const findCorrectBeer = (beerSort, beerProperties) => {
+    const receipts = [];
     
     malts.forEach(malt => {
         hops.forEach(hop => {
@@ -32,14 +28,22 @@ const findCorrectBeer = () => {
                 if (Object.keys(styles).reduce((a, b) => styles[a] > styles[b] ? a : b) == beerSort) {
                     beerProperties.forEach(property => { if (properties[property] < 10) isFits = false });
 
-                    if (isFits) beerFits.push([malt.id, hop.id, yeast.id]);
-                };
+                    if (isFits) {
+                        const receipt = {
+                            sort: beerSort,
+                            malt: malt.id,
+                            hop: hop.id,
+                            yeast: yeast.id,
+                            cntProps: Object.values(properties).filter(value => value >= 10).length,
+                            properties: properties
+                        };
 
+                        receipts.push(receipt);
+                    };
+                };
             });
         });
     });
 
-    console.log(beerFits);
+    return receipts;
 };
-
-findCorrectBeer();
