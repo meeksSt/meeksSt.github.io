@@ -17,7 +17,9 @@ export const malts = [
             bristford: 35,
             hallbruck: 25,
             cascadear: 10,
-            gravenford: 5
+            gravenford: 5,
+            frosthaven: 12,
+            sunvalen: 8
         }
     },
 
@@ -37,7 +39,9 @@ export const malts = [
             bristford: 15,
             hallbruck: 30,
             cascadear: 5,
-            gravenford: 10
+            gravenford: 10,
+            frosthaven: 20,
+            sunvalen: 0
         }
     },
 
@@ -57,7 +61,9 @@ export const malts = [
             bristford: 10,
             hallbruck: 0,
             cascadear: 10,
-            gravenford: 15
+            gravenford: 15,
+            frosthaven: 0,
+            sunvalen: 15
         }
     },
 
@@ -77,7 +83,9 @@ export const malts = [
             bristford: 10,
             hallbruck: 0,
             cascadear: 15,
-            gravenford: 10
+            gravenford: 10,
+            frosthaven: 10,
+            sunvalen: 0
         }
     },
 
@@ -97,7 +105,9 @@ export const malts = [
             bristford: 15,
             hallbruck: 10,
             cascadear: 20,
-            gravenford: 30
+            gravenford: 30,
+            frosthaven: 15,
+            sunvalen: 25
         }
     },
 
@@ -117,7 +127,9 @@ export const malts = [
             bristford: 20,
             hallbruck: 10,
             cascadear: 25,
-            gravenford: 50
+            gravenford: 50,
+            frosthaven: 0,
+            sunvalen: 0
         }
     },
 
@@ -137,7 +149,9 @@ export const malts = [
             bristford: 10,
             hallbruck: 30,
             cascadear: 8,
-            gravenford: 0
+            gravenford: 0,
+            frosthaven: 0,
+            sunvalen: 0
         }
     },
 
@@ -157,7 +171,53 @@ export const malts = [
             bristford: 20,
             hallbruck: 20,
             cascadear: 5,
-            gravenford: 10
+            gravenford: 10,
+            frosthaven: 12,
+            sunvalen: 0
+        }
+    },
+
+    {
+        id: "frostmere-wheat",
+        name: "Frostmere Wheat",
+
+        properties: {
+            refreshment: 5,
+            heaviness: 0,
+            lightness: 5,
+            acidity: 2,
+            sweetness: 3
+        },
+
+        styles: {
+            bristford: 8,
+            hallbruck: 24,
+            cascadear: 5,
+            gravenford: 0,
+            frosthaven: 31,
+            sunvalen: 7
+        }
+    },
+
+    {
+        id: "golden-grove",
+        name: "Golden Grove",
+
+        properties: {
+            refreshment: 4,
+            heaviness: 1,
+            lightness: 4,
+            acidity: 1,
+            sweetness: 3
+        },
+
+        styles: {
+            bristford: 14,
+            hallbruck: 10,
+            cascadear: 5,
+            gravenford: 5,
+            frosthaven: 8,
+            sunvalen: 29
         }
     }
 ];

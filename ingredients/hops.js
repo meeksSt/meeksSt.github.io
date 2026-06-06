@@ -17,7 +17,9 @@ export const hops = [
             bristford: 25,
             hallbruck: 10,
             cascadear: 10,
-            gravenford: 5
+            gravenford: 5,
+            frosthaven: 0,
+            sunvalen: 0
         }
     },
 
@@ -37,7 +39,9 @@ export const hops = [
             bristford: 10,
             hallbruck: 20,
             cascadear: 0,
-            gravenford: 20
+            gravenford: 20,
+            frosthaven: 15,
+            sunvalen: 0
         }
     },
 
@@ -57,7 +61,9 @@ export const hops = [
             bristford: 15,
             hallbruck: 0,
             cascadear: 30,
-            gravenford: 20
+            gravenford: 20,
+            frosthaven: 0,
+            sunvalen: 0
         }
     },
 
@@ -77,7 +83,9 @@ export const hops = [
             bristford: 20,
             hallbruck: 15,
             cascadear: 10,
-            gravenford: 0
+            gravenford: 0,
+            frosthaven: 15,
+            sunvalen: 12
         }
     },
 
@@ -97,7 +105,9 @@ export const hops = [
             bristford: 6,
             hallbruck: 10,
             cascadear: 20,
-            gravenford: 18
+            gravenford: 18,
+            frosthaven: 0,
+            sunvalen: 0
         }
     },
 
@@ -117,7 +127,9 @@ export const hops = [
             bristford: 10,
             hallbruck: 0,
             cascadear: 25,
-            gravenford: 10
+            gravenford: 10,
+            frosthaven: 0,
+            sunvalen: 0
         }
     },
 
@@ -137,7 +149,53 @@ export const hops = [
             bristford: 15,
             hallbruck: 27,
             cascadear: 35,
-            gravenford: 0
+            gravenford: 0,
+            frosthaven: 0,
+            sunvalen: 0
+        }
+    },
+
+    {
+        id: "greendale-herb",
+        name: "Greendale Herb",
+
+        properties: {
+            refreshment: 4,
+            heaviness: 4,
+            lightness: 4,
+            acidity: 3,
+            sweetness: 0
+        },
+
+        styles: {
+            bristford: 14,
+            hallbruck: 12,
+            cascadear: 5,
+            gravenford: 0,
+            frosthaven: 23,
+            sunvalen: 17
+        }
+    },
+
+    {
+        id: "sunmeadow-floral",
+        name: "Sunmeadow Floral",
+
+        properties: {
+            refreshment: 4,
+            heaviness: 0,
+            lightness: 5,
+            acidity: 2,
+            sweetness: 4
+        },
+
+        styles: {
+            bristford: 11,
+            hallbruck: 8,
+            cascadear: 5,
+            gravenford: 0,
+            frosthaven: 9,
+            sunvalen: 25
         }
     }
 ];

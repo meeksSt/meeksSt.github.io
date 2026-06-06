@@ -96,7 +96,3 @@ document.addEventListener("click", (event) => {
         }
     else document.querySelector(".receipts").classList.remove("empty");
 });
-
-
-
-
