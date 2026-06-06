@@ -7,64 +7,28 @@
     <title>Beer Calculator</title>
 </head>
 <body>
-    <div class="styles">
-        <div class="style">
-            <input id="bristford" type="radio" name="beer-style" checked>
-            <label for="bristford">Bristford Ale</label>
-        </div>
-        <div class="style">
-            <input id="hallbruck" type="radio" name="beer-style">
-            <label for="hallbruck">Hallbruck Hellas</label>
-        </div>
-        <div class="style">
-            <input id="cascadear" type="radio" name="beer-style">
-            <label for="cascadear">Cascadear IPA</label>
-        </div>
-        <div class="style">
-            <input id="gravenford" type="radio" name="beer-style">
-            <label for="gravenford">Gravenford Stout</label>
-        </div>
-    </div>
+    <main>
+        <section>
+            <div class="container">
+                <div class="styles">
+                    <button class="btn active--style" id="bristford">Bristford Ale</button>
+                    <button class="btn" id="hallbruck">Hallbruck Hellas</button>
+                    <button class="btn" id="cascadear">Cascadear IPA</button>
+                    <button class="btn" id="gravenford">Gravenford Stout</button>
+                </div>
 
-    <div class="properties">
-        <div class="property">
-            <input id="refreshment" type="checkbox" name="beer-property">
-            <label for="refreshment">Refreshment</label>
-        </div>
-        <div class="property">
-            <input id="heaviness" type="checkbox" name="beer-property">
-            <label for="heaviness">Heaviness</label>
-        </div>
-        <div class="property">
-            <input id="lightness" type="checkbox" name="beer-property">
-            <label for="lightness">Lightness</label>
-        </div>
-        <div class="property">
-            <input id="acidity" type="checkbox" name="beer-property">
-            <label for="acidity">Acidity</label>
-        </div>
-        <div class="property">
-            <input id="sweetness" type="checkbox" name="beer-property">
-            <label for="sweetness">Sweetness</label>
-        </div>
-    </div>
+                <div class="properties">
+                    <button class="btn-small" id="refreshment">Refreshment</button>
+                    <button class="btn-small" id="heaviness">Heaviness</button>
+                    <button class="btn-small" id="lightness">Lightness</button>
+                    <button class="btn-small" id="acidity">Acidity</button>
+                    <button class="btn-small" id="sweetness">Sweetness</button>
+                </div>
 
-    <div id="receipts">
-        <div class="receipt">
-            <span>Bristford Ale</span>
-            <span>Brightcrush</span>
-            <span>Tropicflare</span>
-            <span>Yeastwell</span>
-
-            <div class="receipt-props">
-                <span class="receipt-prop">Refreshment: 9</span>
-                <span class="receipt-prop">Heaviness: 5</span>
-                <span class="receipt-prop">Lightness: 10</span>
-                <span class="receipt-prop">Acidity: 6</span>
-                <span class="receipt-prop">Sweetness: 6</span>
+                <div class="receipts"></div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
     
     <script type="module" src="script.js"></script>
 </body>

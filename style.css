@@ -1,21 +1,119 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    color: #222222;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
 body {
-    background-color: rgb(196, 167, 117);
+    background-color: #FAF3E1;
 }
 
-.receipt, .receipt > * {
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.styles, .properties {
     display: flex;
-    flex-direction: column;
-
-    width: fit-content;
+    gap: 20px;
+    justify-content: start;
+    margin: 20px auto;
 }
 
-#receipts {
+.styles {
+    margin-top: 162px;
+}
+
+.btn, .btn-small {
+    width: 100%;
+    height: 258px;
+    background-color: #FAF3E1;
+    border: 1px solid #FA8112;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 32px;
+    font-weight: 800;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-small {
+    height: 80px;
+    font-size: 24px;
+}
+
+.btn:hover, .btn-small:hover, .receipt:hover {
+    box-shadow: 0 4px 12px #FFCEA1;
+}
+
+.active--style, .active--prop {
+    background-color: #FA8112;
+    color: #FAF3E1;
+}
+
+.receipts {
     display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    width: 100%;
+    justify-content: center;
+    justify-items: center;
+    gap: 20px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #FA8112;
+    border-radius: 10px;
 }
 
 .receipt {
-    padding: 12px;
-    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 250px;
+    padding: 16px;
+    border: 1px solid #FA8112;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.receipt > span {
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    word-break: break-all;
+    margin-top: 11px;
+}
+
+fieldset {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid #FA8112;
+    border-radius: 5px;
+    margin: 0;
+    margin-bottom: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+fieldset > legend {
+    font-size: 14px;
+    font-weight: 200;
+    text-align: left;
+}
+
+fieldset > span {
+    font-size: 18px;
+}
+
+.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    font-size: 32px;
 }

@@ -4,50 +4,59 @@ const createReceiptCard = (card) => {
     const newCard = document.createElement("div");
     newCard.classList = "receipt";
 
-    const cardName = document.createElement("span");
-    cardName.appendChild(document.createTextNode(card.name));
+    const maltField = document.createElement("fieldset");
 
-    const cardMalt = document.createElement("span");
-    cardMalt.appendChild(document.createTextNode(card.malt));
+    const maltLegend = document.createElement("legend");
+    maltLegend.appendChild(document.createTextNode("Malt"));
 
-    const cardHop = document.createElement("span");
-    cardHop.appendChild(document.createTextNode(card.hop));
+    const maltSpan = document.createElement("span");
+    maltSpan.appendChild(document.createTextNode(card.malt));
 
-    const cardYeast = document.createElement("span");
-    cardYeast.appendChild(document.createTextNode(card.yeast));
+    maltField.appendChild(maltLegend);
+    maltField.appendChild(maltSpan);
 
-    newCard.appendChild(cardName);
-    newCard.appendChild(cardMalt);
-    newCard.appendChild(cardHop);
-    newCard.appendChild(cardYeast);
+    const hopField = document.createElement("fieldset");
 
-    const cardProperties = document.createElement("div");
+    const hopLegend = document.createElement("legend");
+    hopLegend.appendChild(document.createTextNode("Hop"));
 
-    Object.keys(card.properties).forEach(element => {
-        const cardProperty = document.createElement("span");
-        const propertyName = element.charAt(0).toUpperCase() + element.slice(1);
+    const hopSpan = document.createElement("span");
+    hopSpan.appendChild(document.createTextNode(card.hop));
 
-        cardProperty.appendChild(document.createTextNode(`${propertyName}: ${card.properties[element]}`));
-        cardProperties.appendChild(cardProperty);
-    });
+    hopField.appendChild(hopLegend);
+    hopField.appendChild(hopSpan);
 
-    newCard.appendChild(cardProperties);
+    const yeastField = document.createElement("fieldset");
 
+    const yeastLegend = document.createElement("legend");
+    yeastLegend.appendChild(document.createTextNode("Yeast"));
+
+    const yeastSpan = document.createElement("span");
+    yeastSpan.appendChild(document.createTextNode(card.malt));
+
+    yeastField.appendChild(yeastLegend);
+    yeastField.appendChild(yeastSpan);
+
+    newCard.appendChild(maltField);
+    newCard.appendChild(hopField);
+    newCard.appendChild(yeastField);
+
+    const propSpan = document.createElement("span");
+    const properties = Object.entries(card.properties).filter(([key, value]) => value >= 10).map(([key, value]) => key[0].toUpperCase() + key.slice(1));
+
+    propSpan.innerHTML = properties.join('<br>');
+    newCard.appendChild(propSpan);
     receiptsBlock.appendChild(newCard);
 };
 
 const createReceiptList = (items) => {
-    items.forEach(item => {
-        createReceiptCard(item);
-    });
+    items.sort((a, b) => a.cntProps - b.cntProps).reverse().forEach(item => createReceiptCard(item) );
 };
 
-const clearReceiptList = () => {
-    document.getElementById("receipts").innerHTML = '';
-};
+const clearReceiptList = () => document.querySelector(".receipts").innerHTML = '';
 
 
-const receiptsBlock = document.getElementById("receipts");
+const receiptsBlock = document.querySelector(".receipts");
 const beerProperties = [];
 let beerSort = 'bristford';
 let receipts = findCorrectBeer(beerSort, beerProperties);
@@ -55,7 +64,10 @@ let receipts = findCorrectBeer(beerSort, beerProperties);
 createReceiptList(receipts);
 
 document.addEventListener("click", (event) => {
-    if (event.target.name == "beer-style") {
+    if (event.target.classList.contains("btn") && !event.target.classList.contains("active--style")) {
+        document.querySelector(".active--style").classList.remove("active--style");
+        event.target.classList.add("active--style");
+
         beerSort = event.target.id;
 
         receipts = findCorrectBeer(beerSort, beerProperties);
@@ -63,12 +75,28 @@ document.addEventListener("click", (event) => {
         createReceiptList(receipts);
     };
 
-    if (event.target.name == "beer-property") {
-        if (event.target.checked && !beerProperties.includes(event.target.id)) beerProperties.push(event.target.id);
-        else beerProperties.splice(beerProperties.indexOf(event.target.id), 1);
+    if (event.target.classList.contains("btn-small")) {
+        if (beerProperties.includes(event.target.id)) {
+            event.target.classList.remove("active--prop");
+            beerProperties.splice(beerProperties.indexOf(event.target.id), 1)
+        }
+        else {
+            event.target.classList.add("active--prop")
+            beerProperties.push(event.target.id) 
+        };
 
         receipts = findCorrectBeer(beerSort, beerProperties);
         clearReceiptList();
         createReceiptList(receipts);
     };
+
+    if (document.querySelectorAll(".receipt").length == 0) {
+            document.querySelector(".receipts").innerHTML = "No recipes found..";
+            document.querySelector(".receipts").classList.add("empty");
+        }
+    else document.querySelector(".receipts").classList.remove("empty");
 });
+
+
+
+
