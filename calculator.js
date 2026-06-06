@@ -12,7 +12,7 @@ const beerStyles = {
 };
 
 export const findCorrectBeer = (beerStyle, beerProperties) => {
-    const receipts = [];
+    const recipes = [];
     
     malts.forEach(malt => {
         hops.forEach(hop => {
@@ -40,7 +40,7 @@ export const findCorrectBeer = (beerStyle, beerProperties) => {
                     beerProperties.forEach(property => { if (properties[property] < 10) isFits = false });
 
                     if (isFits) {
-                        const receipt = {
+                        const recipe = {
                             id: beerStyle,
                             name: beerStyles[beerStyle],
                             malt: malt.name,
@@ -50,12 +50,12 @@ export const findCorrectBeer = (beerStyle, beerProperties) => {
                             properties: properties
                         };
 
-                        receipts.push(receipt);
+                        recipes.push(recipe);
                     };
                 };
             });
         });
     });
     
-    return receipts;
+    return recipes;
 };

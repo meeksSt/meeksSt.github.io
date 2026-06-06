@@ -1,8 +1,8 @@
 import { findCorrectBeer } from './calculator.js';
 
-const createReceiptCard = (card) => {
+const createRecipeCard = (card) => {
     const newCard = document.createElement("div");
-    newCard.classList = "receipt";
+    newCard.classList = "recipe";
 
     const maltField = document.createElement("fieldset");
 
@@ -46,22 +46,22 @@ const createReceiptCard = (card) => {
 
     propSpan.innerHTML = properties.join('<br>');
     newCard.appendChild(propSpan);
-    receiptsBlock.appendChild(newCard);
+    recipesBlock.appendChild(newCard);
 };
 
-const createReceiptList = (items) => {
-    items.sort((a, b) => a.cntProps - b.cntProps).reverse().forEach(item => createReceiptCard(item) );
+const createRecipesList = (items) => {
+    items.sort((a, b) => a.cntProps - b.cntProps).reverse().forEach(item => createRecipeCard(item));
 };
 
-const clearReceiptList = () => document.querySelector(".receipts").innerHTML = '';
+const clearRecipesList = () => document.querySelector(".recipes").innerHTML = '';
 
 
-const receiptsBlock = document.querySelector(".receipts");
+const recipesBlock = document.querySelector(".recipes");
 const beerProperties = [];
 let beerSort = 'bristford';
-let receipts = findCorrectBeer(beerSort, beerProperties);
+let recipes = findCorrectBeer(beerSort, beerProperties);
 
-createReceiptList(receipts);
+createRecipesList(recipes);
 
 document.addEventListener("click", (event) => {
     if (event.target.classList.contains("btn") && !event.target.classList.contains("active--style")) {
@@ -70,9 +70,9 @@ document.addEventListener("click", (event) => {
 
         beerSort = event.target.id;
 
-        receipts = findCorrectBeer(beerSort, beerProperties);
-        clearReceiptList();
-        createReceiptList(receipts);
+        recipes = findCorrectBeer(beerSort, beerProperties);
+        clearRecipesList();
+        createRecipesList(recipes);
     };
 
     if (event.target.classList.contains("btn-small")) {
@@ -85,14 +85,14 @@ document.addEventListener("click", (event) => {
             beerProperties.push(event.target.id) 
         };
 
-        receipts = findCorrectBeer(beerSort, beerProperties);
-        clearReceiptList();
-        createReceiptList(receipts);
+        recipes = findCorrectBeer(beerSort, beerProperties);
+        clearRecipesList();
+        createRecipesList(recipes);
     };
 
-    if (document.querySelectorAll(".receipt").length == 0) {
-            document.querySelector(".receipts").innerHTML = "No recipes found..";
-            document.querySelector(".receipts").classList.add("empty");
+    if (document.querySelectorAll(".recipe").length == 0) {
+            document.querySelector(".recipes").innerHTML = "No recipes found..";
+            document.querySelector(".recipes").classList.add("empty");
         }
-    else document.querySelector(".receipts").classList.remove("empty");
+    else document.querySelector(".recipes").classList.remove("empty");
 });

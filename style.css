@@ -32,7 +32,8 @@ body {
 
 .btn, .btn-small {
     width: 100%;
-    height: 258px;
+    height: 240px;
+    padding: 20px;
     background-color: #FAF3E1;
     border: 1px solid #FA8112;
     border-radius: 10px;
@@ -47,7 +48,7 @@ body {
     font-size: 24px;
 }
 
-.btn:hover, .btn-small:hover, .receipt:hover {
+.btn:hover, .btn-small:hover, .recipe:hover {
     box-shadow: 0 4px 12px #FFCEA1;
 }
 
@@ -56,7 +57,7 @@ body {
     color: #FAF3E1;
 }
 
-.receipts {
+.recipes {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     width: 100%;
@@ -69,9 +70,10 @@ body {
     border-radius: 10px;
 }
 
-.receipt {
+.recipe {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     width: 100%;
     min-height: 250px;
     padding: 16px;
@@ -81,7 +83,7 @@ body {
     transition: 0.2s ease-in-out;
 }
 
-.receipt > span {
+.recipe > span {
     display: block;
     text-align: center;
     font-weight: 600;
@@ -107,7 +109,7 @@ fieldset > legend {
 }
 
 fieldset > span {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .empty {
@@ -116,4 +118,41 @@ fieldset > span {
     align-items: center;
     height: 30vh;
     font-size: 32px;
+}
+
+@media (max-width: 1400px) {
+    .styles {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(180px, 1fr));
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .properties {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 500px) {
+    .styles {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);;
+    }
+
+    .btn {
+        height: 100px;
+        font-size: 20px;
+    }
+
+    .btn-small {
+        height: 40px;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .recipes {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
