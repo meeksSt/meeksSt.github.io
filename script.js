@@ -32,7 +32,7 @@ const createReceiptCard = (card) => {
     yeastLegend.appendChild(document.createTextNode("Yeast"));
 
     const yeastSpan = document.createElement("span");
-    yeastSpan.appendChild(document.createTextNode(card.malt));
+    yeastSpan.appendChild(document.createTextNode(card.yeast));
 
     yeastField.appendChild(yeastLegend);
     yeastField.appendChild(yeastSpan);

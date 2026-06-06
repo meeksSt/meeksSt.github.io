@@ -56,6 +56,6 @@ export const findCorrectBeer = (beerStyle, beerProperties) => {
             });
         });
     });
-
+    
     return receipts;
 };
