@@ -11,7 +11,7 @@ const beerStyles = {
     sunvalen: "Sunvalen Saison"
 };
 
-export const findCorrectBeer = (beerStyle, beerProperties) => {
+export const generateAllRecipes = () => {
     const recipes = [];
     
     malts.forEach(malt => {
@@ -34,28 +34,31 @@ export const findCorrectBeer = (beerStyle, beerProperties) => {
                     sunvalen: malt.styles.sunvalen + hop.styles.sunvalen + yeast.styles.sunvalen
                 };
 
-                let isFits = true;
+                let beerStyle = Object.keys(styles).reduce((a, b) => styles[a] > styles[b] ? a : b);
 
-                if (Object.keys(styles).reduce((a, b) => styles[a] > styles[b] ? a : b) == beerStyle) {
-                    beerProperties.forEach(property => { if (properties[property] < 10) isFits = false });
-
-                    if (isFits) {
-                        const recipe = {
-                            id: beerStyle,
-                            name: beerStyles[beerStyle],
-                            malt: malt.name,
-                            hop: hop.name,
-                            yeast: yeast.name,
-                            cntProps: Object.values(properties).filter(value => value >= 10).length,
-                            properties: properties
-                        };
-
-                        recipes.push(recipe);
-                    };
+                const recipe = {
+                    id: beerStyle,
+                    name: beerStyles[beerStyle],
+                    malt: malt.name,
+                    hop: hop.name,
+                    yeast: yeast.name,
+                    cntProps: Object.values(properties).filter(value => value >= 10).length,
+                    properties: properties
                 };
+
+                recipes.push(recipe); 
             });
         });
     });
-    
+
     return recipes;
+};
+
+export const findCorrectBeer = (beerStyle, beerProperties, recipes, prop_threshold) => {
+    let recipesFiltered = recipes.filter(recipe => recipe.id == beerStyle &&
+        beerProperties.every(
+            property => recipe.properties[property] >= prop_threshold)
+        );
+
+    return recipesFiltered;
 };

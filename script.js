@@ -1,65 +1,45 @@
 import { findCorrectBeer } from './calculator.js';
+import { generateAllRecipes } from './calculator.js';
+
+const PROPERTY_THRESHOLD = 10;
 
 const createRecipeCard = (card) => {
+    const properties = Object.entries(card.properties).filter(([key, value]) => value >= PROPERTY_THRESHOLD).map(([key, value]) => key[0].toUpperCase() + key.slice(1)).join('<br>');
+
     const newCard = document.createElement("div");
     newCard.classList = "recipe";
 
-    const maltField = document.createElement("fieldset");
+    newCard.innerHTML = `
+        <fieldset>
+            <legend>Malt</legend>
+            <span>${card.malt}</span>
+        </fieldset>
+        <fieldset>
+            <legend>Hop</legend>
+            <span>${card.hop}</span>
+        </fieldset>
+        <fieldset>
+            <legend>Yeast</legend>
+            <span>${card.yeast}</span>
+        </fieldset>
+        <span>${properties}</span>
+    `;
 
-    const maltLegend = document.createElement("legend");
-    maltLegend.appendChild(document.createTextNode("Malt"));
-
-    const maltSpan = document.createElement("span");
-    maltSpan.appendChild(document.createTextNode(card.malt));
-
-    maltField.appendChild(maltLegend);
-    maltField.appendChild(maltSpan);
-
-    const hopField = document.createElement("fieldset");
-
-    const hopLegend = document.createElement("legend");
-    hopLegend.appendChild(document.createTextNode("Hop"));
-
-    const hopSpan = document.createElement("span");
-    hopSpan.appendChild(document.createTextNode(card.hop));
-
-    hopField.appendChild(hopLegend);
-    hopField.appendChild(hopSpan);
-
-    const yeastField = document.createElement("fieldset");
-
-    const yeastLegend = document.createElement("legend");
-    yeastLegend.appendChild(document.createTextNode("Yeast"));
-
-    const yeastSpan = document.createElement("span");
-    yeastSpan.appendChild(document.createTextNode(card.yeast));
-
-    yeastField.appendChild(yeastLegend);
-    yeastField.appendChild(yeastSpan);
-
-    newCard.appendChild(maltField);
-    newCard.appendChild(hopField);
-    newCard.appendChild(yeastField);
-
-    const propSpan = document.createElement("span");
-    const properties = Object.entries(card.properties).filter(([key, value]) => value >= 10).map(([key, value]) => key[0].toUpperCase() + key.slice(1));
-
-    propSpan.innerHTML = properties.join('<br>');
-    newCard.appendChild(propSpan);
     recipesBlock.appendChild(newCard);
 };
 
 const createRecipesList = (items) => {
     items.sort((a, b) => a.cntProps - b.cntProps).reverse().forEach(item => createRecipeCard(item));
 };
-
-const clearRecipesList = () => document.querySelector(".recipes").innerHTML = '';
-
+const AllRecipes = generateAllRecipes();
 
 const recipesBlock = document.querySelector(".recipes");
+
+const clearRecipesList = () => recipesBlock.innerHTML = '';
+
 const beerProperties = [];
 let beerSort = 'bristford';
-let recipes = findCorrectBeer(beerSort, beerProperties);
+let recipes = findCorrectBeer(beerSort, beerProperties, AllRecipes, PROPERTY_THRESHOLD);
 
 createRecipesList(recipes);
 
@@ -70,7 +50,7 @@ document.addEventListener("click", (event) => {
 
         beerSort = event.target.id;
 
-        recipes = findCorrectBeer(beerSort, beerProperties);
+        recipes = findCorrectBeer(beerSort, beerProperties, AllRecipes, PROPERTY_THRESHOLD);
         clearRecipesList();
         createRecipesList(recipes);
     };
@@ -85,14 +65,14 @@ document.addEventListener("click", (event) => {
             beerProperties.push(event.target.id) 
         };
 
-        recipes = findCorrectBeer(beerSort, beerProperties);
+        recipes = findCorrectBeer(beerSort, beerProperties, AllRecipes, PROPERTY_THRESHOLD);
         clearRecipesList();
         createRecipesList(recipes);
     };
 
     if (document.querySelectorAll(".recipe").length == 0) {
-            document.querySelector(".recipes").innerHTML = "No recipes found..";
-            document.querySelector(".recipes").classList.add("empty");
+            recipesBlock.innerHTML = "No recipes found..";
+            recipesBlock.classList.add("empty");
         }
-    else document.querySelector(".recipes").classList.remove("empty");
+    else recipesBlock.classList.remove("empty");
 });
