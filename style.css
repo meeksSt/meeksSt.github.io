@@ -38,14 +38,14 @@ body {
     border: 1px solid #FA8112;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 32px;
+    font-size: clamp(1.25rem, 1.028rem + 1.11vw, 2rem);
     font-weight: 800;
     transition: 0.2s ease-in-out;
 }
 
 .btn-small {
     height: 80px;
-    font-size: 24px;
+    font-size: clamp(1rem, 0.852rem + 0.74vw, 1.5rem);
 }
 
 .btn:hover, .btn-small:hover, .recipe:hover {
@@ -143,13 +143,11 @@ fieldset > span {
 
     .btn {
         height: 100px;
-        font-size: 20px;
     }
 
     .btn-small {
         height: 40px;
         padding: 10px;
-        font-size: 16px;
     }
 
     .recipes {
