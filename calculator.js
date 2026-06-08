@@ -55,10 +55,10 @@ export const generateAllRecipes = () => {
 };
 
 export const findCorrectBeer = (beerStyle, beerProperties, recipes, prop_threshold) => {
-    let recipesFiltered = recipes.filter(recipe => recipe.id == beerStyle &&
+    return recipes.filter(
+        recipe => recipe.id == beerStyle &&
         beerProperties.every(
-            property => recipe.properties[property] >= prop_threshold)
-        );
-
-    return recipesFiltered;
+            property => recipe.properties[property] >= prop_threshold
+        )
+    );
 };
