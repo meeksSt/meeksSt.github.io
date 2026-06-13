@@ -6,27 +6,39 @@ import {
 const PROPERTY_THRESHOLD = 10;
 const recipesBlock = document.querySelector(".recipes");
 const allRecipes = generateAllRecipes();
+const hint = document.querySelector(".hint--copied");
 
 const createRecipeCard = (card) => {
     const properties = Object.entries(card.properties).filter(([key, value]) => value >= PROPERTY_THRESHOLD).map(([key, value]) => key[0].toUpperCase() + key.slice(1)).join('<br>');
 
     const newCard = document.createElement("div");
     newCard.classList = "recipe";
+    newCard.setAttribute("data-id", card.id);
 
     newCard.innerHTML = `
-        <fieldset>
-            <legend>Malt</legend>
-            <span>${card.malt}</span>
-        </fieldset>
-        <fieldset>
-            <legend>Hop</legend>
-            <span>${card.hop}</span>
-        </fieldset>
-        <fieldset>
-            <legend>Yeast</legend>
-            <span>${card.yeast}</span>
-        </fieldset>
-        <span>${properties}</span>
+        <div class="recipe--info">                
+            <fieldset>
+                <legend>Malt</legend>
+                <span>${card.malt}</span>
+            </fieldset>
+            <fieldset>
+                <legend>Hop</legend>
+                <span>${card.hop}</span>
+            </fieldset>
+            <fieldset>
+                <legend>Yeast</legend>
+                <span>${card.yeast}</span>
+            </fieldset>
+            <span>${properties}</span>
+        </div>
+
+        <div class="recipe--options">
+            <div class="hint--copied">Copied!</div>
+            <button class="btn--options">
+                <img class="btn--copy" src="/images/copy-to-clipboard.svg" alt="copy to clipboard">
+                <img class="btn--copied" src="/images/copy-to-clipboard-check.svg" alt="copy to clipboard check">
+            </button>
+        </div>
     `;
 
     recipesBlock.appendChild(newCard);
@@ -44,7 +56,7 @@ const handleStyleClick = (event) => {
 
     beerSort = event.target.id;
 
-    recipes = findCorrectBeer(beerSort, beerProperties, allRecipes, PROPERTY_THRESHOLD);
+    recipes = findCorrectBeer(beerSort, beerProperties, allRecipes);
     clearRecipesList();
     createRecipesList(recipes);
 };
@@ -64,6 +76,36 @@ const handlePropertyClick = (event) => {
     createRecipesList(recipes);
 };
 
+const getRecipeText = (recipe) => `
+🍺${recipe.name}
+
+Malt: ${recipe.malt}
+Hop: ${recipe.hop}
+Yeast: ${recipe.yeast}
+
+Properties: 
+• ${recipe.propertiesThreshold.join("\n• ")}
+`.trim();
+
+const copyTextToClipboard = (event) => {
+    const recipeId = event.target.closest('.recipe').dataset.id;
+    const recipe = recipes.find(({id}) => id == recipeId)
+
+    navigator.clipboard.writeText(getRecipeText(recipe));
+};
+
+const handleCopyClick = (event) => {
+    copyTextToClipboard(event);
+
+    event.target.classList.add('copied');
+    event.target.previousElementSibling.classList.add('enable');
+
+    setTimeout(() => {
+        event.target.classList.remove('copied');
+        event.target.previousElementSibling.classList.remove('enable');
+    }, 2000);
+};
+
 const beerProperties = [];
 let beerSort = 'bristford';
 let recipes = findCorrectBeer(beerSort, beerProperties, allRecipes, PROPERTY_THRESHOLD);
@@ -77,6 +119,10 @@ document.addEventListener("click", (event) => {
 
     if (event.target.classList.contains("btn-small")) {
         handlePropertyClick(event);
+    };
+
+    if (event.target.classList.contains("btn--options") && !event.target.classList.contains("copied")) {
+        handleCopyClick(event);
     };
 
     if (document.querySelectorAll(".recipe").length == 0) {

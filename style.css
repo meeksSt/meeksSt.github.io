@@ -4,6 +4,7 @@
     --color-primary: #FA8112;
     --color-background: #FAF3E1;
     --color-text: #222222;
+    --color-white: #FFFFFF;
 }
 
 *,
@@ -74,7 +75,7 @@ textarea {
 
 .recipes {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     width: 100%;
     justify-content: center;
     justify-items: center;
@@ -86,24 +87,117 @@ textarea {
 }
 
 .recipe {
+    position: relative;
+    width: 100%;
+    height: inherit;
+    padding: 16px;
+    border: 1px solid var(--color-primary);
+    border-radius: 5px;
+    cursor: default;
+    user-select: none;
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.recipe--info > span {
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 16px;
+}
+
+.recipe--info, .recipe--options {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.recipe--options {
+    position: absolute;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    min-height: 250px;
-    padding: 16px;
+    gap: 16px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+}
+
+.recipe--options > button {
+    width: 60px;
+    height: 60px;
+}
+
+.recipe:hover > .recipe--options {
+    opacity: 1;
+}
+
+.recipe:hover > .recipe--info {
+    opacity: 0;
+}
+
+.btn--options {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-background);
     border: 1px solid var(--color-primary);
     border-radius: 5px;
     cursor: pointer;
     transition: box-shadow 0.2s ease-in-out;
 }
 
-.recipe > span {
-    display: block;
-    text-align: center;
-    font-weight: 600;
-    word-break: break-word;
-    margin-top: 11px;
+.btn--options:hover {
+    box-shadow: 0 4px 12px #FFCEA1;
+}
+
+.btn--options img {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn--copy {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.btn--copied {
+    transform: scale(0);
+    opacity: 0;
+}
+
+.copied > .btn--copy {
+    transform: scale(0);
+    opacity: 0;
+}
+
+.copied > .btn--copied {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.hint--copied {
+    position: absolute;
+    transform: scale(1);
+    opacity: 1;
+    width: inherit;
+    height: 30px;
+    padding: 4px 8px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    top: -35px;
+    background-color: var(--color-primary);
+    color: var(--color-background);
+    border-radius: 5px;
+    
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+
+.enable {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
 }
 
 fieldset {
