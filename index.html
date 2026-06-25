@@ -11,24 +11,65 @@
         <main>
             <section>
                 <div class="container">
-                    <div class="styles">
-                        <button class="btn active--style" id="bristford">Bristford Ale</button>
-                        <button class="btn" id="hallbruck">Hallbruck Hellas</button>
-                        <button class="btn" id="cascadear">Cascadear IPA</button>
-                        <button class="btn" id="gravenford">Gravenford Stout</button>
-                        <button class="btn" id="frosthaven">Frosthaven Witbier</button>
-                        <button class="btn" id="sunvalen">Sunvalen Saison</button>
+                    <div class="filters beer-styles">
+                        <button class="button styles__button styles__button--active" id="bristford">Bristford Ale</button>
+                        <button class="button styles__button" id="hallbruck">Hallbruck Hellas</button>
+                        <button class="button styles__button" id="cascadear">Cascadear IPA</button>
+                        <button class="button styles__button" id="gravenford">Gravenford Stout</button>
+                        <button class="button styles__button" id="frosthaven">Frosthaven Witbier</button>
+                        <button class="button styles__button" id="sunvalen">Sunvalen Saison</button>
                     </div>
 
-                    <div class="properties">
-                        <button class="btn-small" id="refreshment">Refreshment</button>
-                        <button class="btn-small" id="heaviness">Heaviness</button>
-                        <button class="btn-small" id="lightness">Lightness</button>
-                        <button class="btn-small" id="acidity">Acidity</button>
-                        <button class="btn-small" id="sweetness">Sweetness</button>
+                    <div class="filters beer-properties">
+                        <button class="button properties__button" id="refreshment">Refreshment</button>
+                        <button class="button properties__button" id="heaviness">Heaviness</button>
+                        <button class="button properties__button" id="lightness">Lightness</button>
+                        <button class="button properties__button" id="acidity">Acidity</button>
+                        <button class="button properties__button" id="sweetness">Sweetness</button>
                     </div>
 
-                    <div class="recipes"></div>
+                    <div class="recipes">
+                        <div class="recipes__list recipes__list--active">
+                            <div class="recipe" data-id="675">
+                                <div class="recipe__info">                
+                                    <fieldset>
+                                        <legend>Malt</legend>
+                                        <span>Frostmere Wheat</span>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Hop</legend>
+                                        <span>Farnwood Flora</span>
+                                    </fieldset>
+                                    <fieldset>
+                                        <legend>Yeast</legend>
+                                        <span>Yeastwell</span>
+                                    </fieldset>
+                                    <span>Refreshment<br>Lightness<br>Sweetness</span>
+                                </div>
+
+                                <div class="recipe__options recipe-options">
+                                    <div class="recipe-options__hint recipe-options__hint--disabled">Copied!</div>
+                                    <button class="button recipe-options__button">
+                                        <img class="recipe-options__icon recipe-options__icon--copy" src="/images/copy-to-clipboard.svg" alt="copy to clipboard">
+                                        <img class="recipe-options__icon recipe-options__icon--copied" src="/images/copy-to-clipboard-check.svg" alt="copy to clipboard check">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="recipes__favorites"></div>
+
+                        <div class="recipes__tabs">
+                            <div class="recipes__tab recipes__tab--active" data-tab="recipes">
+                                <img src="images/recipes.svg" alt="recipes book">
+                                <span>Recipes</span>
+                            </div>
+                            <div class="recipes__tab" data-tab="favorites">
+                                <img src="images/add-to-favorites.svg" alt="add to favorites">
+                                <span>Favorites</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>
