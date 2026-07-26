@@ -3,6 +3,10 @@ import {
     generateAllRecipes
 } from './calculator.js';
 
+import { 
+    addToFavorites
+} from './favorites.js';
+
 const PROPERTY_THRESHOLD = 10;
 const recipesList = document.querySelector(".recipes__list");
 const allRecipes = generateAllRecipes();
@@ -37,19 +41,21 @@ const createRecipeCard = (card) => {
         <div class="recipe__options recipe-options">
 
             <div class="recipe-options__copy">
-                <div class="recipe-options__hint recipe-options__hint--hidden">Copied!</div>
+                <div class="recipe-options__hint recipe-options__hint--hidden recipe-options__hint--copied">Copied!</div>
 
-                <button class="button recipe-options__button">
-                    <img class="recipe-options__icon recipe-options__icon--copy" src="/images/copy-to-clipboard.svg" alt="copy to clipboard">
-                    <img class="recipe-options__icon recipe-options__icon--copied" src="/images/copy-to-clipboard-check.svg" alt="copy to clipboard check">
+                <button class="button recipe-options__button button__copy">
+                    <img class="recipe-options__icon recipe-options__icon--copy" src="images/copy-to-clipboard.svg" alt="copy to clipboard">
+                    <img class="recipe-options__icon recipe-options__icon--copied" src="images/copy-to-clipboard-check.svg" alt="copy to clipboard check">
                 </button>
             </div>
 
             <div class="recipe-options__favorite">
-                <div class="recipe-options__hint recipe-options__hint--hidden">Added!</div>
+                <div class="recipe-options__hint recipe-options__hint--hidden recipe-options__hint--added">Added!</div>
+                <div class="recipe-options__hint recipe-options__hint--hidden recipe-options__hint--removed">Removed!</div>
 
-                <button class="button recipe-options__button">
-                    <img class="recipe-options__icon" src="/images/add-to-favorites.svg" alt="add to favorites">
+                <button class="button recipe-options__button button__favorite">
+                    <img class="recipe-options__icon recipe-options__icon--favorite" src="images/add-to-favorites.svg" alt="add to favorites">
+                    <img class="recipe-options__icon recipe-options__icon--favorited" src="images/add-to-favorites-check.svg" alt="add to favorites">
                 </button>
             </div>
         </div>
@@ -132,6 +138,7 @@ const copyTextToClipboard = (event) => {
 };
 
 const handleCopyClick = (event) => {
+    console.log('gfds')
     copyTextToClipboard(event);
 
     event.target.classList.add('recipe-options__button--copied');
@@ -141,6 +148,16 @@ const handleCopyClick = (event) => {
         event.target.classList.remove('recipe-options__button--copied');
         event.target.previousElementSibling.classList.add('recipe-options__hint--hidden');
     }, 2000);
+};
+
+const handleAddToFavoritesClick = (event) => {
+    if (event.target.classList.contains('recipe-options__button--favorited')) event.target.classList.remove('recipe-options__button--favorited')
+    else event.target.classList.add('recipe-options__button--favorited');
+
+    addToFavorites(event.target.closest(".recipe").dataset.id);
+    let card = event.target.closest(".recipe").dataset.id
+    console.log(allRecipes[card])
+    console.log(card)
 };
 
 const beerProperties = [];
@@ -154,9 +171,9 @@ document.addEventListener("click", (event) => {
 
     if (event.target.classList.contains("properties__button")) handlePropertyClick(event);
 
-    if (event.target.classList.contains("recipe-options__button") && event.target.previousElementSibling.classList.contains("recipe-options__hint--hidden")) handleCopyClick(event);
+    if (event.target.classList.contains("button__copy") && event.target.closest(".recipe-options__copy").querySelector(".recipe-options__hint--hidden")) handleCopyClick(event);
 
-    if (event.target.classList.contains("recipe-options__button") && event.target.previousElementSibling.classList.contains("recipe-options__hint--hidden")) handleCopyClick(event);
+    if (event.target.classList.contains("button__favorite") && event.target.closest(".recipe-options__favorite").querySelector(".recipe-options__hint--hidden")) handleAddToFavoritesClick(event);
 
     if (event.target.classList.contains("recipes__tab")) handleTabClick(event);
 
