@@ -20,26 +20,38 @@ const createRecipeCard = (card) => {
     newCard.innerHTML = `
         <div class="recipe__info">                
             <fieldset>
-                <legend>Malt</legend>
-                <span>${card.malt}</span>
-            </fieldset>
-            <fieldset>
-                <legend>Hop</legend>
-                <span>${card.hop}</span>
-            </fieldset>
-            <fieldset>
-                <legend>Yeast</legend>
-                <span>${card.yeast}</span>
-            </fieldset>
-            <span>${properties}</span>
+            <legend>Malt</legend>
+            <span>${card.malt}</span>
+        </fieldset>
+        <fieldset>
+            <legend>Hop</legend>
+            <span>${card.hop}</span>
+        </fieldset>
+        <fieldset>
+            <legend>Yeast</legend>
+            <span>${card.yeast}</span>
+        </fieldset>
+        <span>${properties}</span>
         </div>
 
         <div class="recipe__options recipe-options">
-            <div class="recipe-options__hint recipe-options__hint--disabled">Copied!</div>
-            <button class="button recipe-options__button">
-                <img class="recipe-options__icon recipe-options__icon--copy" src="/images/copy-to-clipboard.svg" alt="copy to clipboard">
-                <img class="recipe-options__icon recipe-options__icon--copied" src="/images/copy-to-clipboard-check.svg" alt="copy to clipboard check">
-            </button>
+
+            <div class="recipe-options__copy">
+                <div class="recipe-options__hint recipe-options__hint--hidden">Copied!</div>
+
+                <button class="button recipe-options__button">
+                    <img class="recipe-options__icon recipe-options__icon--copy" src="/images/copy-to-clipboard.svg" alt="copy to clipboard">
+                    <img class="recipe-options__icon recipe-options__icon--copied" src="/images/copy-to-clipboard-check.svg" alt="copy to clipboard check">
+                </button>
+            </div>
+
+            <div class="recipe-options__favorite">
+                <div class="recipe-options__hint recipe-options__hint--hidden">Added!</div>
+
+                <button class="button recipe-options__button">
+                    <img class="recipe-options__icon" src="/images/add-to-favorites.svg" alt="add to favorites">
+                </button>
+            </div>
         </div>
     `;
 
@@ -122,13 +134,12 @@ const copyTextToClipboard = (event) => {
 const handleCopyClick = (event) => {
     copyTextToClipboard(event);
 
-    console.log(event.target)
     event.target.classList.add('recipe-options__button--copied');
-    event.target.previousElementSibling.classList.remove('recipe-options__hint--disabled');
+    event.target.previousElementSibling.classList.remove('recipe-options__hint--hidden');
 
     setTimeout(() => {
         event.target.classList.remove('recipe-options__button--copied');
-        event.target.previousElementSibling.classList.add('recipe-options__hint--disabled');
+        event.target.previousElementSibling.classList.add('recipe-options__hint--hidden');
     }, 2000);
 };
 
@@ -143,7 +154,9 @@ document.addEventListener("click", (event) => {
 
     if (event.target.classList.contains("properties__button")) handlePropertyClick(event);
 
-    if (event.target.classList.contains("recipe-options__button") && event.target.previousElementSibling.classList.contains("recipe-options__hint--disabled")) handleCopyClick(event);
+    if (event.target.classList.contains("recipe-options__button") && event.target.previousElementSibling.classList.contains("recipe-options__hint--hidden")) handleCopyClick(event);
+
+    if (event.target.classList.contains("recipe-options__button") && event.target.previousElementSibling.classList.contains("recipe-options__hint--hidden")) handleCopyClick(event);
 
     if (event.target.classList.contains("recipes__tab")) handleTabClick(event);
 
