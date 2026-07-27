@@ -317,6 +317,10 @@ fieldset > span {
     display: flex;
 }
 
+.recipes__empty--hidden {
+    display: none;
+}
+
 
 @media (max-width: 1400px) {
     .beer-styles {

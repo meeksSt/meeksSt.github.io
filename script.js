@@ -4,15 +4,18 @@ import {
 } from './calculator.js';
 
 import { 
-    addToFavorites
+    addToFavorites,
+    removeFromFavorites
 } from './favorites.js';
 
 const PROPERTY_THRESHOLD = 10;
 const recipesList = document.querySelector(".recipes__list");
+const favoritesList = document.querySelector(".recipes__favorites");
 const allRecipes = generateAllRecipes();
 const hint = document.querySelector(".recipe-options__hint");
-const tabs = document.querySelectorAll(".recipes__tab")
-const favoritesList = document.querySelector(".recipes__favorites");
+const tabs = document.querySelectorAll(".recipes__tab");
+const recipesEmpty = recipesList.querySelector(".recipes__empty");
+const favoritesEmpty = favoritesList.querySelector(".recipes__empty");
 
 const createRecipeCard = (card) => {
     const properties = Object.entries(card.properties).filter(([key, value]) => value >= PROPERTY_THRESHOLD).map(([key, value]) => key[0].toUpperCase() + key.slice(1)).join('<br>');
@@ -50,9 +53,6 @@ const createRecipeCard = (card) => {
             </div>
 
             <div class="recipe-options__favorite">
-                <div class="recipe-options__hint recipe-options__hint--hidden recipe-options__hint--added">Added!</div>
-                <div class="recipe-options__hint recipe-options__hint--hidden recipe-options__hint--removed">Removed!</div>
-
                 <button class="button recipe-options__button button__favorite">
                     <img class="recipe-options__icon recipe-options__icon--favorite" src="images/add-to-favorites.svg" alt="add to favorites">
                     <img class="recipe-options__icon recipe-options__icon--favorited" src="images/add-to-favorites-check.svg" alt="add to favorites">
@@ -68,7 +68,10 @@ const createRecipesList = (items) => {
     [...items].sort((a, b) => a.cntProps - b.cntProps).reverse().forEach(item => createRecipeCard(item));
 };
 
-const clearRecipesList = () => recipesList.innerHTML = '';
+const clearRecipesList = () => {
+    recipesList.querySelectorAll(".recipe").forEach(element => element.remove());
+};
+// recipesList.innerHTML = '<span class="recipes__empty recipes__empty--hidden">No recipes found..</span>';
 
 const handleStyleClick = (event) => {
     document.querySelector(".styles__button--active").classList.remove("styles__button--active");
@@ -138,7 +141,6 @@ const copyTextToClipboard = (event) => {
 };
 
 const handleCopyClick = (event) => {
-    console.log('gfds')
     copyTextToClipboard(event);
 
     event.target.classList.add('recipe-options__button--copied');
@@ -149,15 +151,23 @@ const handleCopyClick = (event) => {
         event.target.previousElementSibling.classList.add('recipe-options__hint--hidden');
     }, 2000);
 };
-
+localStorage.clear();
 const handleAddToFavoritesClick = (event) => {
-    if (event.target.classList.contains('recipe-options__button--favorited')) event.target.classList.remove('recipe-options__button--favorited')
-    else event.target.classList.add('recipe-options__button--favorited');
+    const cardId = event.target.closest(".recipe").dataset.id;
+    const card = document.querySelector(`[data-id="${cardId}"]`);
+    const cloneCard = card.cloneNode(true);
 
-    addToFavorites(event.target.closest(".recipe").dataset.id);
-    let card = event.target.closest(".recipe").dataset.id
-    console.log(allRecipes[card])
-    console.log(card)
+    if (cardId in localStorage) {
+        removeFromFavorites(cardId);
+        favoritesList.querySelector(`[data-id="${cardId}"]`).remove();
+        recipesList.querySelector(`[data-id="${cardId}"]`).querySelector(".button__favorite").classList.remove('recipe-options__button--favorited');
+    }   
+    else {
+        addToFavorites(cardId);
+        favoritesList.appendChild(cloneCard);
+        favoritesList.querySelector(`[data-id="${cardId}"]`).querySelector(".button__favorite").classList.add('recipe-options__button--favorited');
+        recipesList.querySelector(`[data-id="${cardId}"]`).querySelector(".button__favorite").classList.add('recipe-options__button--favorited');
+    };
 };
 
 const beerProperties = [];
@@ -173,21 +183,17 @@ document.addEventListener("click", (event) => {
 
     if (event.target.classList.contains("button__copy") && event.target.closest(".recipe-options__copy").querySelector(".recipe-options__hint--hidden")) handleCopyClick(event);
 
-    if (event.target.classList.contains("button__favorite") && event.target.closest(".recipe-options__favorite").querySelector(".recipe-options__hint--hidden")) handleAddToFavoritesClick(event);
+    if (event.target.classList.contains("button__favorite")) handleAddToFavoritesClick(event);
 
     if (event.target.classList.contains("recipes__tab")) handleTabClick(event);
-
-    if (recipesList.children.length == 0) {
-        recipesList.innerHTML = "No recipes found..";
-        recipesList.classList.add("recipes__list--empty");
-
+    
+    if (recipesList.querySelectorAll(".recipe").length == 0) {
+        recipesEmpty.classList.remove("recipes__empty--hidden")
     }
-    else recipesList.classList.remove("recipes__list--empty");
+    else {
+        recipesEmpty.classList.add("recipes__empty--hidden");
+    };
 
-    if (favoritesList.children.length == 0) {
-        favoritesList.innerHTML = "No recipes found..";
-        favoritesList.classList.add("recipes__favorites--empty");
-
-    }
-    else favoritesList.classList.remove("recipes__favorites--empty");
+    if (favoritesList.querySelectorAll(".recipe").length == 0) favoritesEmpty.classList.remove("recipes__empty--hidden")
+    else favoritesEmpty.classList.add("recipes__empty--hidden");
 });
