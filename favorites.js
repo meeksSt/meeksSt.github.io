@@ -1,12 +1,7 @@
-const recipeStorage = window.localStorage;
-
-export const addToFavorites = (id) => {
+export const addToStorage = (id) => {
     localStorage.setItem(id, id);
- 
-    
 };
 
-export const removeFromFavorites = (id) => {
+export const removeFromStorage = (id) => {
     localStorage.removeItem(id);
-
 };

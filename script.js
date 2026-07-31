@@ -4,8 +4,8 @@ import {
 } from './calculator.js';
 
 import { 
-    addToFavorites,
-    removeFromFavorites
+    addToStorage,
+    removeFromStorage
 } from './favorites.js';
 
 const PROPERTY_THRESHOLD = 10;
@@ -61,6 +61,7 @@ const createRecipeCard = (card) => {
         </div>
     `;
 
+    if (localStorage.getItem(card.id) !== null) newCard.querySelector(".button__favorite").classList.add("recipe-options__button--favorited");
     recipesList.appendChild(newCard);
 };
 
@@ -71,7 +72,15 @@ const createRecipesList = (items) => {
 const clearRecipesList = () => {
     recipesList.querySelectorAll(".recipe").forEach(element => element.remove());
 };
-// recipesList.innerHTML = '<span class="recipes__empty recipes__empty--hidden">No recipes found..</span>';
+
+const addToFavorites = () => {
+    Object.entries(localStorage).forEach(key => {
+        const card = document.querySelector(`[data-id="${key[0]}"]`);
+        const cloneCard = card.cloneNode(true);
+        favoritesList.appendChild(cloneCard);
+        favoritesList.querySelector(`[data-id="${key[0]}"]`).querySelector(".button__favorite").classList.add('recipe-options__button--favorited');
+    });
+};
 
 const handleStyleClick = (event) => {
     document.querySelector(".styles__button--active").classList.remove("styles__button--active");
@@ -151,19 +160,23 @@ const handleCopyClick = (event) => {
         event.target.previousElementSibling.classList.add('recipe-options__hint--hidden');
     }, 2000);
 };
-localStorage.clear();
+
+console.log(localStorage)
+// localStorage.clear();
+
 const handleAddToFavoritesClick = (event) => {
     const cardId = event.target.closest(".recipe").dataset.id;
     const card = document.querySelector(`[data-id="${cardId}"]`);
     const cloneCard = card.cloneNode(true);
 
     if (cardId in localStorage) {
-        removeFromFavorites(cardId);
+        removeFromStorage(cardId);
         favoritesList.querySelector(`[data-id="${cardId}"]`).remove();
-        recipesList.querySelector(`[data-id="${cardId}"]`).querySelector(".button__favorite").classList.remove('recipe-options__button--favorited');
+        
+        if (recipesList.querySelectorAll(".recipe").length > 0) recipesList.querySelector(`[data-id="${cardId}"]`).querySelector(".button__favorite").classList.remove('recipe-options__button--favorited');
     }   
     else {
-        addToFavorites(cardId);
+        addToStorage(cardId);
         favoritesList.appendChild(cloneCard);
         favoritesList.querySelector(`[data-id="${cardId}"]`).querySelector(".button__favorite").classList.add('recipe-options__button--favorited');
         recipesList.querySelector(`[data-id="${cardId}"]`).querySelector(".button__favorite").classList.add('recipe-options__button--favorited');
@@ -175,6 +188,7 @@ let beerSort = 'bristford';
 let recipes = findCorrectBeer(beerSort, beerProperties, allRecipes, PROPERTY_THRESHOLD);
 
 createRecipesList(recipes);
+addToFavorites();
 
 document.addEventListener("click", (event) => {
     if (event.target.classList.contains("styles__button") && !event.target.classList.contains("styles__button--active")) handleStyleClick(event);
