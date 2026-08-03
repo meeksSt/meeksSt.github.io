@@ -141,6 +141,11 @@ textarea {
     opacity: 0;
 }
 
+.recipe__name {
+    margin-bottom: 16px;
+    font-size: 20px;
+}
+
 .recipe:hover > .recipe__options {
     opacity: 1;
 }
@@ -275,6 +280,8 @@ fieldset > span {
     display: flex;
     align-items: center;
     gap: 10px;
+    border: none;
+    background-color: transparent;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     padding: 10px;
