@@ -46,14 +46,6 @@ export const createRecipeCard = (card, propThreshold) => {
     return newCard;
 };
 
-// export const createRecipesList = (items) => {
-//     [...items].sort((a, b) => a.cntProps - b.cntProps).reverse().forEach(item => {
-//         const card = createRecipeCard(item);
-//         if (localStorage.getItem(item.id) !== null) addFavoritesClass(card);
-//         recipesList.appendChild(card);
-//     });
-// };
-
-// export const clearRecipesList = () => {
-//     recipesList.querySelectorAll(".recipe").forEach(element => element.remove());
-// };
+export const addFavoritesClass = (card) => {
+    card.querySelector(".button__favorite").classList.add('recipe-options__button--favorited');
+};

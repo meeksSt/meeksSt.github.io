@@ -17,7 +17,8 @@ import {
 } from './tabs.js';
 
 import { 
-    createRecipeCard
+    createRecipeCard,
+    addFavoritesClass
 } from './render.js';
 
 const PROPERTY_THRESHOLD = 10;
@@ -47,22 +48,7 @@ const clearRecipesList = () => {
     recipesList.querySelectorAll(".recipe").forEach(element => element.remove());
 };
 
-const addFavoritesClass = (card) => {
-    card.querySelector(".button__favorite").classList.add('recipe-options__button--favorited');
-};
-
-const addToFavorites = () => {
-    Object.entries(localStorage).forEach(key => {
-        const card = createRecipeCard(allRecipes[key[0]], PROPERTY_THRESHOLD);
-        
-        const cloneCard = card.cloneNode(true);
-        favoritesList.appendChild(cloneCard);
-        addFavoritesClass(cloneCard);
-    });
-};
-
 const handleStyleClick = (event) => {
-    console.log(event)
     document.querySelector(".styles__button--active").classList.remove("styles__button--active");
     event.target.classList.add("styles__button--active");
 
@@ -74,14 +60,10 @@ const handleStyleClick = (event) => {
 };
 
 const handlePropertyClick = (event) => {
-    if (beerProperties.includes(event.target.id)) {
-        event.target.classList.remove("properties__button--active");
-        beerProperties.splice(beerProperties.indexOf(event.target.id), 1)
-    }
-    else {
-        event.target.classList.add("properties__button--active")
-        beerProperties.push(event.target.id) 
-    };
+    event.target.classList.toggle("properties__button--active", !beerProperties.includes(event.target.id));
+
+    if (beerProperties.includes(event.target.id)) beerProperties.splice(beerProperties.indexOf(event.target.id), 1)
+    else beerProperties.push(event.target.id);
 
     recipes = findCorrectBeer(beerSort, beerProperties, allRecipes, PROPERTY_THRESHOLD);
 
@@ -89,46 +71,39 @@ const handlePropertyClick = (event) => {
     createRecipesList(recipes);
 };
 
-// const handleTabClick = (event) => {
-//     tabs.forEach(tab => {
-//         if (tab.classList.contains("recipes__tab--active")) tab.classList.remove("recipes__tab--active");
-//     });
+const addToFavorites = () => {
+    Object.entries(localStorage).forEach(key => {
+        const card = createRecipeCard(allRecipes[key[0]], PROPERTY_THRESHOLD);
 
-//     if (!event.target.classList.contains("recipes__tab--active")) {
-//         event.target.classList.add("recipes__tab--active");
-//     };
-
-//     if (event.target.dataset.tab == "favorites") {
-//         favoritesList.classList.add("recipes__favorites--active");
-//         recipesList.classList.remove("recipes__list--active");
-//     };
-
-//     if (event.target.dataset.tab == "recipes") {
-//         recipesList.classList.add("recipes__list--active");
-//         favoritesList.classList.remove("recipes__favorites--active");
-//     };
-        
-// };
+        favoritesList.appendChild(card);
+        addFavoritesClass(card);
+    });
+};
 
 const handleCopyClick = (event) => {
     const recipeId = event.target.closest('.recipe').dataset.id
     copyTextToClipboard(allRecipes[recipeId]);
 
     event.target.classList.add('recipe-options__button--copied');
-    event.target.previousElementSibling.classList.remove('recipe-options__hint--hidden');
+
+    event.target
+    .closest(".recipe-options__copy")
+    .querySelector(".recipe-options__hint").classList.remove('recipe-options__hint--hidden');
 
     setTimeout(() => {
         event.target.classList.remove('recipe-options__button--copied');
-        event.target.previousElementSibling.classList.add('recipe-options__hint--hidden');
+        event.target
+        .closest(".recipe-options__copy")
+        .querySelector(".recipe-options__hint").classList.add('recipe-options__hint--hidden');
     }, 2000);
 };
 
 const handleAddToFavoritesClick = (event) => {
     const cardId = event.target.closest(".recipe").dataset.id;
-    const card = document.querySelector(`[data-id="${cardId}"]`);
-    const cloneCard = card.cloneNode(true);
+    const card = recipesContainer.querySelector(`[data-id="${cardId}"]`);
+    const cloneCard = createRecipeCard(allRecipes[cardId], PROPERTY_THRESHOLD);
 
-    if (cardId in localStorage) {
+    if (localStorage.getItem(cardId)) {
         removeFromStorage(cardId);
         favoritesList.querySelector(`[data-id="${cardId}"]`).remove();
         
